@@ -161,22 +161,6 @@ router.get('/', async (req, res) => {
 });
 
 
-// Add Link
-// router.post('/add', async (req, res) => {
-//   const { name, url } = req.body;
-
-//   try {
-//     const db = req.app.locals.db;
-//     const userId = req.session.user.username;
-
-//     const link = { name, url, userId, createdAt: new Date() };
-//     await db.collection('links').add(link);
-//     res.redirect('/links');
-//   } catch (err) {
-//     console.error('Error in adding link:', err);
-//     res.redirect('/links');
-//   }
-// });
 const { getFirestore } = require('firebase-admin/firestore');
 
 router.post('/add', async (req, res) => {
@@ -232,6 +216,43 @@ router.post('/delete', async (req, res) => {
     res.redirect('/links');
   } catch (err) {
     console.error('Error in deleting links:', err);
+    res.redirect('/links');
+  }
+});
+
+// Route to update the note for a specific link
+router.post('/update-note', async (req, res) => {
+  const { link_id, note } = req.body;
+  
+  console.log('Received link_id:', link_id);
+  console.log('Received note:', note);
+
+  if (!link_id || !note) {
+    return res.redirect('/links'); // Ensure both link_id and note are provided
+  }
+
+  try {
+    const db = req.app.locals.db; // Firestore instance
+    const userId = req.session.user.username; // Get the userId from the session
+
+    // Reference to the specific link in Firestore
+    const linkRef = db.collection('links').doc(link_id);
+
+    // Fetch the link to check if the link belongs to the current user
+    const linkSnapshot = await linkRef.get();
+    if (!linkSnapshot.exists || linkSnapshot.data().userId !== userId) {
+      return res.redirect('/links'); // Ensure the link belongs to the user
+    }
+
+    // Update the note field in Firestore
+    await linkRef.update({
+      note: note,
+      updatedAt: new Date(), // Optionally add a timestamp for when the note was updated
+    });
+
+    res.redirect('/links');
+  } catch (err) {
+    console.error('Error in updating note:', err);
     res.redirect('/links');
   }
 });
