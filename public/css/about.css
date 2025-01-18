@@ -1,0 +1,260 @@
+/* Variables */
+:root {
+    --primary-color: #2563eb;
+    --secondary-color: #3b82f6;
+    --background-color: #f8fafc;
+    --text-primary: #ffffff;
+    --text-secondary: #ffffff;
+    --white: #ffffff;
+    --gradient-primary: linear-gradient(135deg, #7D5A50 0%, #B4846C 100%);
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --border-color: #e5e7eb;
+}
+
+/* Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    line-height: 1.6;
+    background-color:#F1DEC9;
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header Styles */
+header {
+    /* background: var(--gradient-primary); */
+    padding: 1rem 0;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    /* box-shadow: var(--shadow-md); */
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 a {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 1.8rem;
+    font-weight: 700;
+    transition: opacity 0.3s ease;
+}
+
+header h1 a:hover {
+    opacity: 0.9;
+}
+
+/* Navigation Styles */
+header nav {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.nav-btn {
+    color: var(--white);
+    text-decoration: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    /* background: rgba(255, 255, 255, 0.1); */
+}
+
+.nav-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.primary-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.primary-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Main Content */
+main {
+    flex: 1;
+    padding: 120px 2rem 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* About Container */
+.about-container {
+    background: var(--white);
+    padding: 3rem;
+    border-radius: 12px;
+    box-shadow: var(--shadow-md);
+    max-width: 800px;
+    margin: 0 auto;
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.about-container h2 {
+    color: var(--text-primary);
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    background: var(--background-color);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.about-container p {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.8;
+}
+
+.about-container p:last-child {
+    margin-bottom: 0;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 1.5rem;
+    background: var(--white);
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    border-top: 1px solid var(--border-color);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .header-container {
+        padding: 0 1rem;
+    }
+
+    header h1 a {
+        font-size: 1.5rem;
+    }
+
+    header nav {
+        gap: 0.5rem;
+    }
+
+    .nav-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    main {
+        padding: 100px 1rem 2rem;
+    }
+
+    .about-container {
+        padding: 2rem;
+    }
+
+    .about-container h2 {
+        font-size: 2rem;
+    }
+
+    .about-container p {
+        font-size: 1rem;
+    }
+}
+
+/* Additional Animations */
+@keyframes gradientFlow {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.about-container h2 {
+    background-size: 200% auto;
+    animation: gradientFlow 3s ease infinite;
+}
+
+/* Hover Effects */
+.about-container {
+    transition: transform 0.3s ease;
+}
+
+.about-container:hover {
+    transform: translateY(-5px);
+}
+
+/* Dark Mode Support (Optional) */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background-color: #111827;
+        --text-primary: #f9fafb;
+        --text-secondary: #d1d5db;
+        --white: #1f2937;
+        --border-color: #374151;
+    }
+
+    .about-container {
+        background: #1f2937;
+    }
+
+    .about-container h2 {
+        background: var(--gradient-primary);
+        -webkit-background-clip: text;
+        background-clip: text;
+    }
+
+    footer {
+        background: #1f2937;
+    }
+}
+
+/* Print Styles (Optional) */
+@media print {
+    header, footer {
+        display: none;
+    }
+
+    .about-container {
+        box-shadow: none;
+        padding: 0;
+    }
+
+    body {
+        background: white;
+    }
+}

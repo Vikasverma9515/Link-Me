@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinkMe - Save Your Links Effortlessly</title>
+    <link rel="stylesheet" href="/css/styles1.css">
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <h1><a href="/" style="text-decoration: none; color: white;">LinkMe</a></h1>
+        <nav>
+            <% if (user) { %>
+                <a href="/auth/logout">Logout</a>
+                <a href="/links">Dashboard</a>
+            <% } else { %>
+                <a href="/auth/login">Login</a>
+                <a href="/auth/register">Register</a>
+            <% } %>
+        </nav>
+    </header>
+    
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h2>Save, Organize, and Access Your Links Anywhere</h2>
+            <p>LinkMe is your ultimate link-saving solution. Organize your web discoveries, declutter your bookmarks, and access them anytime, anywhere!</p>
+            <% if (!user) { %>
+                <a href="/auth/register" class="cta-button">Get Started for Free</a>
+            <% } else { %>
+                <a href="/links" class="cta-button">Go to Dashboard</a>
+            <% } %>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h3>Why Choose LinkMe?</h3>
+            <div class="feature-cards">
+                <div class="card">
+                    <h4>Simple and Intuitive</h4>
+                    <p>Easily save and organize your links with a clean and user-friendly interface.</p>
+                </div>
+                <div class="card">
+                    <h4>Accessible Anywhere</h4>
+                    <p>Your saved links are available across all devices, anytime you need them.</p>
+                </div>
+                <div class="card">
+                    <h4>Powerful Features</h4>
+                    <p>Enjoy features like notes, sorting, and link categorization to stay organized.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <div class="container">
+            <h3>What Our Users Say</h3>
+            <div class="testimonial-cards">
+                <div class="card">
+                    <p>"LinkMe is a lifesaver! It keeps all my important links organized and easy to access."</p>
+                    <h4>- Aditi Sharma</h4>
+                </div>
+                <div class="card">
+                    <p>"I love the simplicity and the ability to add notes to my links. Highly recommended!"</p>
+                    <h4>- Rahul Kapoor</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="cta">
+        <div class="container">
+            <h3>Start Organizing Your Links Today</h3>
+            <p>Sign up now and take the first step towards a more organized digital life!</p>
+            <% if (!user) { %>
+                <a href="/auth/register" class="cta-button">Sign Up for Free</a>
+            <% } else { %>
+                <a href="/links" class="cta-button">Go to Dashboard</a>
+            <% } %>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer>
+        <div class="container">
+            <p>&copy; <%= new Date().getFullYear() %> LinkMe. All Rights Reserved.</p>
+            <nav>
+                <a href="/">Home</a>
+                <a href="/about">About</a>
+                <!-- <a href="/contact">Contact</a> -->
+            </nav>
+        </div>
+    </footer>
+</body>
+</html>

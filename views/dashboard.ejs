@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - LinkMe</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <h1><a href="/">LinkMe</a></h1>
+            <nav>
+                <button id="show-add-link-form" class="nav-btn primary-btn" aria-label="Add a new link">Add Link</button>
+                <button id="show-add-note-form" class="nav-btn primary-btn" aria-label="Add a new note">Add Note</button>
+                <button id="delete-selected" class="nav-btn danger-btn" disabled aria-label="Delete selected links">Delete Selected</button>
+                <!-- <a href="/links" class="dashboard-link">Dashboard</a> -->
+                <a href="/auth/logout" class="nav-btn primary-btn">Logout</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="dashboard-container">
+            <div class="dashboard-header">
+                <h2>Your Links</h2>
+                <form action="/links" method="GET" class="sort-form">
+                    <label for="sort">Sort By:</label>
+                    <select name="sort" id="sort" class="sort-select">
+                        <!-- <option value="name" <%= sortBy === 'name' ? 'selected' : '' %>>Alphabetically</option> -->
+                        <option value="date" <%= sortBy === 'date' ? 'selected' : '' %>>Recently Added</option>
+                    </select>
+                    <button type="submit" class="primary-btn">Sort</button>
+                </form>
+            </div>
+
+            <form id="delete-form" action="/links/delete" method="POST">
+                <div class="card-container">
+                    <% links.forEach(link => { %>
+                        <div class="link-card">
+                            <input type="checkbox" name="delete_ids" value="<%= link.id %>" class="delete-checkbox" aria-label="Select link <%= link.name %> for deletion">
+                            <img src="<%= link.image_url %>" alt="Image for <%= link.name %>" onerror="this.src='/images/default.png';" class="link-image">
+                            <h3 class="link-title"><a href="<%= link.url %>" target="_blank" rel="noopener noreferrer"><%= link.name %></a></h3>
+                            <p class="link-notes"><%= link.notes || 'No notes added.' %></p>
+                        </div>
+                    <% }); %>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <!-- <footer>
+        <p>&copy; 2025 LinkMe. All Rights Reserved.</p>
+    </footer> -->
+    <!-- Modal for Add Link Form -->
+    <div id="add-link-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="close-add-link-modal" aria-label="Close add link modal">&times;</span>
+            <h3>Add a New Link</h3>
+            <form action="/links/add" method="POST" class="add-link-form">
+                <div class="input-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required placeholder="Enter link name">
+                </div>
+                <div class="input-group">
+                    <label for="url">URL:</label>
+                    <input type="url" id="url" name="url" required placeholder="Enter link URL">
+                </div>
+                <button type="submit" class="primary-btn">Add Link</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for Add Note Form -->
+    <div id="add-note-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="close-add-note-modal" aria-label="Close add note modal">&times;</span>
+            <h3>Add or Update Note</h3>
+            <form action="/links/update-note" method="POST" class="note-form">
+                <div class="input-group">
+                    <label for="link">Select Link:</label>
+                    <select name="link_id" id="link" required>
+                        <option value="" disabled selected>Select a link</option>
+                        <% links.forEach(link => { %>
+                            <option value="<%= link.id %>"><%= link.name %></option>
+                        <% }); %>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="note">Note:</label>
+                    <textarea name="note" id="note" rows="4" required placeholder="Write your note here..."></textarea>
+                </div>
+                <button type="submit" class="primary-btn">Save Note</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Modal functionality
+        const addLinkModal = document.getElementById('add-link-modal');
+        const addNoteModal = document.getElementById('add-note-modal');
+        const showAddLinkForm = document.getElementById('show-add-link-form');
+        const showAddNoteForm = document.getElementById('show-add-note-form');
+        const closeAddLinkModal = document.getElementById('close-add-link-modal');
+        const closeAddNoteModal = document.getElementById('close-add-note-modal');
+
+        if (showAddLinkForm) {
+            showAddLinkForm.addEventListener('click', () => {
+                addLinkModal.style.display = 'block';
+            });
+        }
+
+        if (showAddNoteForm) {
+            showAddNoteForm.addEventListener('click', () => {
+                addNoteModal.style.display = 'block';
+            });
+        }
+
+        if (closeAddLinkModal) {
+            closeAddLinkModal.addEventListener('click', () => {
+                addLinkModal.style.display = 'none';
+            });
+        }
+
+        if (closeAddNoteModal) {
+            closeAddNoteModal.addEventListener('click', () => {
+                addNoteModal.style.display = 'none';
+            });
+        }
+
+        window.addEventListener('click', event => {
+            if (event.target === addLinkModal) {
+                addLinkModal.style.display = 'none';
+            }
+            if (event.target === addNoteModal) {
+                addNoteModal.style.display = 'none';
+            }
+        });
+    </script>
+
+    <script>
+        const checkboxes = document.querySelectorAll('.delete-checkbox');
+        const deleteButton = document.getElementById('delete-selected');
+        const deleteForm = document.getElementById('delete-form');
+
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', () => {
+                // Enable or disable the delete button based on checked checkboxes
+                const selectedCheckboxes = document.querySelectorAll('.delete-checkbox:checked');
+                deleteButton.disabled = selectedCheckboxes.length === 0;
+            });
+        });
+
+        // Trigger delete form submission when the "Delete Selected" button is clicked
+        deleteButton.addEventListener('click', (e) => {
+            if (deleteButton.disabled) return;  // Prevent submission if button is disabled
+            deleteForm.submit();  // Submitting the form to delete selected links
+        });
+        
+    </script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - LinkMe</title>
+    <link rel="stylesheet" href="/css/stylesLogin.css">
+</head>
+<body>
+    <header>
+        <h1><a href="/">LinkMe</a></h1>
+        <nav>
+            <a href="/auth/register" class="nav-btn">Register</a>
+        </nav>
+    </header>
+    <main>
+        <section class="login-container">
+            <h2>Welcome Back!</h2>
+            <p class="subtitle">Log in to save and manage your favorite links effortlessly.</p>
+            <form action="/auth/login" method="POST" class="login-form">
+                <div class="input-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required placeholder="Enter your username">
+                </div>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required placeholder="Enter your password">
+                </div>
+                <button type="submit" class="primary-btn">Login</button>
+            </form>
+            <p class="register-link">
+                Don't have an account? <a href="/auth/register">Register here</a>
+            </p>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2025 LinkMe. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>
